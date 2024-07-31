@@ -26,15 +26,32 @@ Route::group(['prefix' => 'merchant'], function (){
     Route::post('/login', [\App\Http\Controllers\Merchant\AuthController::class, 'login']);
 
     Route::group(['middleware' => ['jwt.verify']], function () {
-
         Route::group(['prefix' => 'product'], function () {
             Route::match(['post', 'get'],'/', [\App\Http\Controllers\Merchant\ProductController::class, 'index']);
             Route::match(['post', 'get'],'/{id}', [\App\Http\Controllers\Merchant\ProductController::class, 'findByID']);
+            Route::delete('/{id}/delete', [\App\Http\Controllers\Merchant\ProductController::class, 'destroy']);
         });
 
         Route::group(['prefix' => 'driver'], function () {
             Route::match(['post', 'get'],'/', [\App\Http\Controllers\Merchant\DriverController::class, 'index']);
             Route::match(['post', 'get'],'/{id}', [\App\Http\Controllers\Merchant\DriverController::class, 'findByID']);
+            Route::delete('/{id}/delete', [\App\Http\Controllers\Merchant\DriverController::class, 'destroy']);
         });
     });
 });
+
+Route::group(['prefix' => 'customer'], function () {
+    Route::post('/register', [\App\Http\Controllers\Customer\AuthController::class, 'register']);
+    Route::post('/login', [\App\Http\Controllers\Customer\AuthController::class, 'login']);
+
+    Route::group(['middleware' => ['jwt.verify']], function () {
+        Route::group(['prefix' => 'merchant'], function () {
+            Route::get('/', [\App\Http\Controllers\Customer\MerchantController::class, 'index']);
+            Route::get('/{id}', [\App\Http\Controllers\Customer\MerchantController::class, 'findByID']);
+            Route::get('/{id}/product', [\App\Http\Controllers\Customer\MerchantController::class, 'productByMerchant']);
+            Route::get('/{id}/driver', [\App\Http\Controllers\Customer\MerchantController::class, 'driverByMerchant']);
+        });
+    });
+});
+
+

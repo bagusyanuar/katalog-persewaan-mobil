@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Merchant;
 
 use App\Helper\CustomController;
 use App\Models\Driver;
+use Illuminate\Database\Eloquent\Model;
 
 class DriverController extends CustomController
 {
@@ -38,7 +39,20 @@ class DriverController extends CustomController
             if (!$driver) {
                 return $this->jsonNotFoundResponse('driver not found');
             }
+            if ($this->request->method() === 'POST') {
+                return $this->patch($driver);
+            }
             return $this->jsonSuccessResponse('success', $driver);
+        }catch (\Exception $e) {
+            return $this->jsonErrorResponse($e->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            Driver::destroy($id);
+            return $this->jsonSuccessResponse('success');
         }catch (\Exception $e) {
             return $this->jsonErrorResponse($e->getMessage());
         }
@@ -60,6 +74,30 @@ class DriverController extends CustomController
             ];
             Driver::create($data_request);
             return $this->jsonSuccessResponse('success');
+        }catch (\Exception $e) {
+            return $this->jsonErrorResponse($e->getMessage());
+        }
+    }
+
+    /**
+     * @param Model $data
+     * @return \Illuminate\Http\JsonResponse
+     */
+    private function patch($data)
+    {
+        try {
+            $merchantID = auth()->id();
+            $name = $this->postField('name');
+            $phone = $this->postField('phone');
+            $price = $this->postField('price');
+
+            $data_request = [
+                'merchant_id' => $merchantID,
+                'name' => $name,
+                'phone' => $phone,
+                'price' => $price
+            ];
+            $data->update($data_request);
         }catch (\Exception $e) {
             return $this->jsonErrorResponse($e->getMessage());
         }

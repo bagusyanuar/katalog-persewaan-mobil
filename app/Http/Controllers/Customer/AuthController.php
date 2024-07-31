@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App\Http\Controllers\Merchant;
+namespace App\Http\Controllers\Customer;
 
 
 use App\Helper\CustomController;
+use App\Models\Customer;
 use App\Models\Merchant;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -24,12 +25,10 @@ class AuthController extends CustomController
             $email = $this->postField('email');
             $username = $this->postField('username');
             $password = $this->postField('password');
-            $role = 'merchant';
+            $role = 'customer';
             $name = $this->postField('name');
             $phone = $this->postField('phone');
             $address = $this->postField('address');
-            $latitude = $this->postField('latitude');
-            $longitude = $this->postField('longitude');
 
             $data_user = [
                 'email' => $email,
@@ -39,16 +38,14 @@ class AuthController extends CustomController
             ];
 
             $user = User::create($data_user);
-            $data_merchant = [
+            $data_customer = [
                 'user_id' => $user->id,
                 'name' => $name,
                 'phone' => $phone,
                 'address' => $address,
-                'latitude' => $latitude,
-                'longitude' => $longitude,
             ];
 
-            Merchant::create($data_merchant);
+            Customer::create($data_customer);
             $token = auth('api')->setTTL(null)->tokenById($user->id);
             DB::commit();
             return $this->jsonSuccessResponse('success', [
@@ -68,7 +65,7 @@ class AuthController extends CustomController
 
             $user = User::with([])
                 ->where('username', '=', $username)
-                ->where('role', '=', 'merchant')
+                ->where('role', '=', 'customer')
                 ->first();
             if (!$user) {
                 return $this->jsonNotFoundResponse('user not found!');

@@ -50,6 +50,16 @@ class ProductController extends CustomController
         }
     }
 
+    public function destroy($id)
+    {
+        try {
+            Product::destroy($id);
+            return $this->jsonSuccessResponse('success');
+        } catch (\Exception $e) {
+            return $this->jsonErrorResponse($e->getMessage());
+        }
+    }
+
     private function store()
     {
         try {
