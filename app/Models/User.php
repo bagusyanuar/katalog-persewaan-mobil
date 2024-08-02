@@ -61,4 +61,9 @@ class User extends Authenticatable implements JWTSubject
         // TODO: Implement getJWTCustomClaims() method.
         return [];
     }
+
+    public function merchant()
+    {
+        return $this->hasOne(Merchant::class, 'user_id');
+    }
 }
