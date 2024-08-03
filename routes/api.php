@@ -21,20 +21,20 @@ Route::get('/', function () {
     ], 200);
 });
 
-Route::group(['prefix' => 'merchant'], function (){
+Route::group(['prefix' => 'merchant'], function () {
     Route::post('/register', [\App\Http\Controllers\Merchant\AuthController::class, 'register']);
     Route::post('/login', [\App\Http\Controllers\Merchant\AuthController::class, 'login']);
 
     Route::group(['middleware' => ['jwt.verify']], function () {
         Route::group(['prefix' => 'product'], function () {
-            Route::match(['post', 'get'],'/', [\App\Http\Controllers\Merchant\ProductController::class, 'index']);
-            Route::match(['post', 'get'],'/{id}', [\App\Http\Controllers\Merchant\ProductController::class, 'findByID']);
+            Route::match(['post', 'get'], '/', [\App\Http\Controllers\Merchant\ProductController::class, 'index']);
+            Route::match(['post', 'get'], '/{id}', [\App\Http\Controllers\Merchant\ProductController::class, 'findByID']);
             Route::delete('/{id}/delete', [\App\Http\Controllers\Merchant\ProductController::class, 'destroy']);
         });
 
         Route::group(['prefix' => 'driver'], function () {
-            Route::match(['post', 'get'],'/', [\App\Http\Controllers\Merchant\DriverController::class, 'index']);
-            Route::match(['post', 'get'],'/{id}', [\App\Http\Controllers\Merchant\DriverController::class, 'findByID']);
+            Route::match(['post', 'get'], '/', [\App\Http\Controllers\Merchant\DriverController::class, 'index']);
+            Route::match(['post', 'get'], '/{id}', [\App\Http\Controllers\Merchant\DriverController::class, 'findByID']);
             Route::delete('/{id}/delete', [\App\Http\Controllers\Merchant\DriverController::class, 'destroy']);
         });
     });
@@ -54,6 +54,9 @@ Route::group(['prefix' => 'customer'], function () {
         Route::get('/{id}', [\App\Http\Controllers\Customer\ProductController::class, 'findByID']);
     });
     Route::group(['middleware' => ['jwt.verify']], function () {
+        Route::group(['prefix' => 'cart'], function () {
+            Route::match(['post', 'get'], '/', [\App\Http\Controllers\Customer\CartController::class, 'index']);
+        });
 
     });
 });
