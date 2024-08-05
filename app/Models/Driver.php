@@ -12,6 +12,7 @@ class Driver extends Model
     protected $fillable = [
         'merchant_id',
         'name',
+        'image',
         'phone',
         'price'
     ];

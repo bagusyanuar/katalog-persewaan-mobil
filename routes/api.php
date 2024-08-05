@@ -56,6 +56,7 @@ Route::group(['prefix' => 'customer'], function () {
     Route::group(['middleware' => ['jwt.verify']], function () {
         Route::group(['prefix' => 'cart'], function () {
             Route::match(['post', 'get'], '/', [\App\Http\Controllers\Customer\CartController::class, 'index']);
+            Route::post( '/checkout', [\App\Http\Controllers\Customer\CartController::class, 'checkout']);
         });
 
     });
