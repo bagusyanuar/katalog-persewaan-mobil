@@ -59,6 +59,10 @@ Route::group(['prefix' => 'customer'], function () {
             Route::post( '/checkout', [\App\Http\Controllers\Customer\CartController::class, 'checkout']);
         });
 
+        Route::group(['prefix' => 'rent'], function () {
+            Route::get( '/', [\App\Http\Controllers\Customer\RentController::class, 'index']);
+            Route::post( '/checkout', [\App\Http\Controllers\Customer\CartController::class, 'checkout']);
+        });
     });
 });
 

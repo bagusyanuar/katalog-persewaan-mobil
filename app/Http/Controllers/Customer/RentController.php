@@ -18,6 +18,8 @@ class RentController extends CustomController
     {
         try {
             $data = Rent::with([])
+                ->where('user_id', '=', auth()->id())
+                ->orderBy('created_at', 'DESC')
                 ->get();
             return $this->jsonSuccessResponse('success', $data);
 
