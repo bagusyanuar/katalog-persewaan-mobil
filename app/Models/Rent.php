@@ -22,4 +22,14 @@ class Rent extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class, 'rent_id');
+    }
+
+    public function rent_driver()
+    {
+        return $this->hasMany(RentDriver::class,'rent_id');
+    }
 }
