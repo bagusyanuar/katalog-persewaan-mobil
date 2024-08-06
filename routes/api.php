@@ -63,6 +63,10 @@ Route::group(['prefix' => 'customer'], function () {
             Route::get( '/', [\App\Http\Controllers\Customer\RentController::class, 'index']);
             Route::match(['post', 'get'], '/{id}', [\App\Http\Controllers\Customer\RentController::class, 'getDataByID']);
         });
+
+        Route::group(['prefix' => 'profile'], function () {
+            Route::match(['post', 'get'], '/', [\App\Http\Controllers\Customer\ProfileController::class, 'index']);
+        });
     });
 });
 
