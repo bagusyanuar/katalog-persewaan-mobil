@@ -93,6 +93,7 @@ class CartController extends CustomController
                 return $this->jsonBadRequestResponse('no cart found');
             }
 
+            $merchantID = $carts->first()->product->merchant_id;
             $returnDate = $body['date_return'];
             $rentDay = $body['rent_day'];
             $driversRequest = $body['driver'];
@@ -114,6 +115,7 @@ class CartController extends CustomController
 
             $rent_request = [
                 'user_id' => $userID,
+                'merchant_id' => $merchantID,
                 'reference_number' => 'rent-'.date('YmdHis'),
                 'total' => $total,
                 'date_rent' => Carbon::now(),

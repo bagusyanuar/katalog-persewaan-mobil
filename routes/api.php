@@ -41,7 +41,6 @@ Route::group(['prefix' => 'merchant'], function () {
         Route::group(['prefix' => 'order'], function () {
             Route::match(['post', 'get'], '/', [\App\Http\Controllers\Merchant\OrderController::class, 'index']);
             Route::match(['post', 'get'], '/{id}', [\App\Http\Controllers\Merchant\OrderController::class, 'findByID']);
-            Route::delete('/{id}/delete', [\App\Http\Controllers\Merchant\OrderController::class, 'destroy']);
         });
     });
 });
