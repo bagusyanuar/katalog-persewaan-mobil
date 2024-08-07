@@ -52,7 +52,9 @@ class AuthController extends CustomController
             $token = auth('api')->setTTL(null)->tokenById($user->id);
             DB::commit();
             return $this->jsonSuccessResponse('success', [
-                'access_token' => $token
+                'access_token' => $token,
+                'email' => $email,
+                'username' => $user->username
             ]);
         }catch (\Exception $e) {
             DB::rollBack();
@@ -63,11 +65,10 @@ class AuthController extends CustomController
     public function login()
     {
         try {
-            $username = $this->postField('username');
+            $email = $this->postField('email');
             $password = $this->postField('password');
-
             $user = User::with([])
-                ->where('username', '=', $username)
+                ->where('email', '=', $email)
                 ->where('role', '=', 'merchant')
                 ->first();
             if (!$user) {

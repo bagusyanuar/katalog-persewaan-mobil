@@ -11,6 +11,7 @@ class Rent extends Model
 
     protected $fillable = [
         'user_id',
+        'merchant_id',
         'reference_number',
         'total',
         'date_rent',
@@ -31,5 +32,10 @@ class Rent extends Model
     public function rent_driver()
     {
         return $this->hasMany(RentDriver::class,'rent_id');
+    }
+
+    public function user_merchant()
+    {
+        return $this->belongsTo(User::class,'merchant_id');
     }
 }

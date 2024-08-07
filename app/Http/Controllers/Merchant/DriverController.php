@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Merchant;
 use App\Helper\CustomController;
 use App\Models\Driver;
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 class DriverController extends CustomController
 {
@@ -72,6 +73,15 @@ class DriverController extends CustomController
                 'phone' => $phone,
                 'price' => $price
             ];
+            if ($this->request->hasFile('image')) {
+                $file = $this->request->file('image');
+                $extension = $file->getClientOriginalExtension();
+                $document = Uuid::uuid4()->toString() . '.' . $extension;
+                $storage_path = public_path('assets/drivers');
+                $documentName = $storage_path . '/' . $document;
+                $data_request['image'] = '/assets/drivers/' . $document;
+                $file->move($storage_path, $documentName);
+            }
             Driver::create($data_request);
             return $this->jsonSuccessResponse('success');
         }catch (\Exception $e) {
@@ -97,6 +107,16 @@ class DriverController extends CustomController
                 'phone' => $phone,
                 'price' => $price
             ];
+
+            if ($this->request->hasFile('image')) {
+                $file = $this->request->file('image');
+                $extension = $file->getClientOriginalExtension();
+                $document = Uuid::uuid4()->toString() . '.' . $extension;
+                $storage_path = public_path('assets/drivers');
+                $documentName = $storage_path . '/' . $document;
+                $data_request['image'] = '/assets/drivers/' . $document;
+                $file->move($storage_path, $documentName);
+            }
             $data->update($data_request);
         }catch (\Exception $e) {
             return $this->jsonErrorResponse($e->getMessage());
