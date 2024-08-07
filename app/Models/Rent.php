@@ -38,4 +38,9 @@ class Rent extends Model
     {
         return $this->belongsTo(User::class,'merchant_id');
     }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class,'rent_id')->orderBy('created_at','DESC');
+    }
 }
