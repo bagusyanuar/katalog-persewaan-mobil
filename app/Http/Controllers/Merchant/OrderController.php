@@ -17,7 +17,7 @@ class OrderController extends CustomController
     public function index()
     {
         try {
-            $data = Rent::with(['product', 'rent_driver.driver', 'user_merchant.merchant'])
+            $data = Rent::with(['rent_driver.driver', 'user_merchant.merchant', 'user.customer'])
                 ->where('merchant_id', '=', auth()->id())
                 ->orderBy('created_at', 'ASC')
                 ->get();
