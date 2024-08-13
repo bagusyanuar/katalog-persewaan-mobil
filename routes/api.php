@@ -21,6 +21,16 @@ Route::get('/', function () {
     ], 200);
 });
 
+Route::group(['prefix' => 'admin'], function () {
+    Route::post('/login', [\App\Http\Controllers\Admin\AuthController::class, 'login']);
+    Route::get('/member', [\App\Http\Controllers\Admin\MemberController::class, 'index']);
+    Route::get('/merchant', [\App\Http\Controllers\Admin\MerchantController::class, 'index']);
+
+    Route::group(['middleware' => ['jwt.verify']], function () {
+
+    });
+});
+
 Route::group(['prefix' => 'merchant'], function () {
     Route::post('/register', [\App\Http\Controllers\Merchant\AuthController::class, 'register']);
     Route::post('/login', [\App\Http\Controllers\Merchant\AuthController::class, 'login']);
