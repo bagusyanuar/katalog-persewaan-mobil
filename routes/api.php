@@ -53,6 +53,10 @@ Route::group(['prefix' => 'merchant'], function () {
             Route::match(['post', 'get'], '/{id}', [\App\Http\Controllers\Merchant\OrderController::class, 'findByID']);
         });
 
+        Route::group(['prefix' => 'report'], function () {
+            Route::match(['post', 'get'], '/', [\App\Http\Controllers\Merchant\ReportController::class, 'index']);
+        });
+
         Route::group(['prefix' => 'profile'], function () {
             Route::match(['post', 'get'], '/', [\App\Http\Controllers\Merchant\ProfileController::class, 'index']);
         });
